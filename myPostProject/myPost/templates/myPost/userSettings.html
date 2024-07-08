@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myPost - settings</title>
+    <link rel="stylesheet" href="{% static 'css/userSettings.css' %}">
+</head>
+<body>
+    <h1>User Settings</h1>
+    <form action="{% url 'userSettings' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" value="{{ request.user.username }}" required>
+        </div>
+        <div>
+            <label for="userBio">Bio:</label>
+            <textarea name="userBio" id="userBio">{{ UserProfile.user_bio }}</textarea>
+        </div>
+        {% if request.user.userprofile.user_pic %}
+        <div>
+            <input type="file" name="profile_pic" id="profile_pic">
+        </div>
+        <div>
+            <label for="profile_pic">Actual profile picture:</label>
+            <img src="{{ UserProfile.user_pic.url }}" alt="Profile Picture" class="profile-img">
+        </div>
+        {% else %}
+        <div>
+            <p>You havent choose an a profile pic :c</p>
+            <input type="file" name="profile_pic" id="profile_pic">
+        </div>
+        {% endif %}
+        <div>
+            <input type="submit" value="Save Changes">
+            <a href="{% url 'mainView'%}"><button>to your profile</button></a>
+        </div>
+
+    </form>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>

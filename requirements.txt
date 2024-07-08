@@ -1,0 +1,41 @@
+django-video-encoding
+django-embed-video
+django-ckeditor
+pillow
+django-storages
+
+
+<div class="content">
+    <!-- Aquí va tu contenido centrado -->
+    {% for post in PostsData %}
+        <div class="post">
+            <img src="{{ post.p_pic.url }}" alt="Post Image" class="post-img">
+            <p>{{ post.content }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+-- own userp rofile 
+
+
+<!-- Contenido -->
+<div class="content">
+    <!-- Perfil de Usuario -->
+    <div class="profile-section">
+        <img src="{{ request.user.userProfile.user_pic.url }}" alt="Profile Picture" class="profile-img">
+        <h2>{{ request.user.username }}</h2>
+    </div>
+
+    <!-- Posts -->
+    <div class="posts-section">
+        {% for post in PostsData %}
+            <div class="post">
+                <img src="{{ post.p_pic.url }}" alt="Post Image" class="post-img">
+                <p>{{ post.content }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
