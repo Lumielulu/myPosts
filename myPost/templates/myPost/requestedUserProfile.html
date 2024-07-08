@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myPost - {{ Username.username }}'s Profile</title>
+    <link rel="stylesheet" href="{% static 'css/requestedUserProfile.css' %}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-center">
+            <a href="{% url 'mainView' %}" class="navbar-item">Home</a>
+            {% if request.user.is_authenticated %}
+                {% if request.user.userprofile.user_pic %}
+                <a href="{% url 'ownUserProfile' %}" class="navbar-item">Welcome,<img src="{{ request.user.userprofile.user_pic.url }}" alt="Profile Picture" class="profile-img"></a>
+                <a href="{% url 'logOut' %}" class="navbar-item">Log out</a>
+                {% else %}
+                <a href="{% url 'ownUserProfile' %}" style="color: white;" class="navbar-item"> Welcome, {{request.user.username}}!</a>
+                <a href="{% url 'logOut' %}" class="navbar-item">Log out</a>
+                {%endif%}
+            {% else %}
+                <a href="{% url 'loginUser' %}" class="navbar-item">Welcome, identify!</a>
+                <a href="{% url 'userRegister' %}" class="navbar-item">Don't have an account yet?</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="profile-section">
+            <img src="{{ UserPfp.user_pic.url }}" alt="{{ Username.username }}'s Profile Picture" class="profile-img">
+            <h2>{{ Username.username }}</h2>
+            <h2>{{UserPfp.user_bio}}</h2>
+        </div>
+
+        <!-- Posts -->
+        <div class="posts-section">
+            {% for post in UserPosts %}
+                <div class="post">
+                    <div>
+                        <img src="{{ post.user.userprofile.user_pic.url }}" alt="user image" class="user-image" style="    
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;">
+                        <p>{{Username.username}}</p>
+                    </div>
+                    {% if post.post_pic %}
+                    <img src="{{ post.post_pic.url }}" alt="Post Image" class="post-img">
+                    <p>{{ post.content }}</p>
+                    <p>{{post.created_at}}</p>
+                    {% else %}
+                    <p>{{ post.content }}</p>
+                    <p>{{post.created_at}}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
